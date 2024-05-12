@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using Newtonsoft.Json;
 
 namespace MSDF_Test;
 
