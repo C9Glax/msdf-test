@@ -1,36 +1,38 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 
 namespace MSDF_Test;
 
-public struct Texture
+[SuppressMessage("Interoperability", "CA1416:Validate platform compatibility")]
+internal readonly struct Texture
 {
-    internal Bitmap Image;
-    internal int GlyphSize;
-    internal int Padding;
+    private readonly Bitmap _image;
+    private readonly int _glyphSize;
+    private readonly int _padding;
 
-    public Texture(Bitmap image, int glyphSize, int padding)
+    internal Texture(Bitmap image, int glyphSize, int padding)
     {
-        this.Image = image;
-        this.GlyphSize = glyphSize;
-        this.Padding = padding;
+        this._image = image;
+        this._glyphSize = glyphSize;
+        this._padding = padding;
     }
 
     internal List<Bitmap> GetGlyphBitmaps()
     {
         List<Bitmap> ret = new();
-        for (int y = Padding; y < Image.Width - Padding; y += GlyphSize + Padding)
+        for (int y = _padding; y < _image.Width - _padding; y += _glyphSize + _padding)
         {
-            for (int x = Padding; x < Image.Height - Padding; x += GlyphSize + Padding)
+            for (int x = _padding; x < _image.Height - _padding; x += _glyphSize + _padding)
             {
                 Point topLeft = new (x, y);
-                ret.Add(Image.Clone(new Rectangle(topLeft, new Size(GlyphSize, GlyphSize)), Image.PixelFormat));
+                ret.Add(_image.Clone(new Rectangle(topLeft, new Size(_glyphSize, _glyphSize)), _image.PixelFormat));
             }
         }
 
         return ret;
     }
 
-    public Texture(string imagePath, int glyphSize, int padding) : this((Bitmap)Bitmap.FromFile(imagePath), glyphSize, padding)
+    public Texture(string imagePath, int glyphSize, int padding) : this((Bitmap)Image.FromFile(imagePath), glyphSize, padding)
     {
         
     }

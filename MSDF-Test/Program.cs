@@ -20,5 +20,7 @@ do
 
 Console.WriteLine("Rendering...");
 Bitmap render = msdf.Render(str, size);
+#pragma warning disable CA1416
 render.Save("render.png", ImageFormat.Png);
+#pragma warning restore CA1416
 Console.WriteLine("Done.");
